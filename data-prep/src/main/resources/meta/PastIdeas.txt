@@ -1,0 +1,12 @@
+TwinWords API:
+    no good, because "associations" can produce "dog" -> "cat", and that's no good
+
+Jackson/Gson:
+    Using a mapper is not trivial, because JSON does not have a defined Key structure
+        - e.g. if you call for a verb, you will expect multiple keys such as "verb", "auxiliary verb"
+        - but if you then define a noun, it will have "noun" as a key, and unmapping will fail
+        - To work with this, I'd first need to define Word Superclass, and a class for every part of speech - "Noun", "Verb", "Adjective"
+
+Using https://googledictionaryapi.eu-gb.mybluemix.net/?define=
+
+    Somewhat unreliable
