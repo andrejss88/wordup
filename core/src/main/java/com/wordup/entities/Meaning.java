@@ -1,4 +1,4 @@
-package com.wordup.utils;
+package com.wordup.entities;
 
 import java.util.List;
 
