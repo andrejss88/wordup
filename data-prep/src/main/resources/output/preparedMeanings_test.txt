@@ -1,0 +1,7 @@
+sympathize;v;be understanding of;sympathise,empathize,empathise,understand;"You don't need to explain--I understand!";
+know;v;be cognizant or aware of a fact or a specific piece of information;cognize,cognise;"I know that the President lied to the people","I want to know who is winning the game!","I know it's time";
+know the score;v;be well-informed;be with it,be on the ball,know what's going on,know what's what;'s_going_on 0 know_what';
+know;v;have firsthand knowledge of states, situations, emotions, or sensations;experience,live;"I know the feeling!","have you ever known hunger?","I have lived a kind of hell when I was a drug addict","The holocaust survivors have lived a nightmare","I lived through two divorces";
+relive;v;experience again, often in the imagination;live over;"He relived the horrors of war";
+brand;n;a recognizable kind;make;"there's a new brand of hero in the movies now","what make of car is that?";
+like;n;a kind of person;ilk;"We'll not see his like again","I can't tolerate people of his ilk";

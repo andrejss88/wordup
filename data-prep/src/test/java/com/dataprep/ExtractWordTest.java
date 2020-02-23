@@ -2,8 +2,8 @@ package com.dataprep;
 
 import org.testng.annotations.Test;
 
-import static com.wordup.ExtractWordMeanings.extractSynonyms;
-import static com.wordup.ExtractWordMeanings.extractWord;
+import static com.wordup._2PrepareWordMeanings.extractSynonyms;
+import static com.wordup._2PrepareWordMeanings.extractWord;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.testng.Assert.assertEquals;
 

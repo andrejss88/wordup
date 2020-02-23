@@ -11,7 +11,7 @@ import static com.wordup.utils.FileUtils.write;
 import static com.wordup.utils.WordUtils.*;
 import static java.util.stream.Collectors.toList;
 
-public class PrepareWordList {
+public class _1PrepareWordList {
 
     private static final String META_PATH = PATH + "meta/";
 

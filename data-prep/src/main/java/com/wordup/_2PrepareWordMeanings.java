@@ -6,7 +6,7 @@ import java.util.regex.MatchResult;
 import java.util.regex.Pattern;
 
 import static com.wordup.utils.Constants.INPUT_PATH;
-import static com.wordup.utils.Constants.PATH;
+import static com.wordup.utils.Constants.OUTPUT_PATH;
 import static com.wordup.utils.FileUtils.convertFileToStringList;
 import static com.wordup.utils.FileUtils.write;
 import static java.lang.String.join;
@@ -14,10 +14,7 @@ import static java.util.Arrays.asList;
 import static java.util.Arrays.copyOfRange;
 import static java.util.stream.Collectors.toList;
 
-public class ExtractWordMeanings {
-
-
-    private static final String OUTPUT_PATH = PATH + "output/";
+public class _2PrepareWordMeanings {
 
     private static final String TEXT_IN_QUOTES_REGEX = "([\"'])(?:(?=(\\\\?))\\2.)*?\\1";
     private static final List<String> EMPTY_LIST = List.of();
@@ -28,9 +25,9 @@ public class ExtractWordMeanings {
         List<String> rawNouns = convertFileToStringList(INPUT_PATH + "input_definitions_nouns.txt");
         List<String> rawAdj = convertFileToStringList(INPUT_PATH + "input_definitions_adj.txt");
 
-        String preparedVerbs = extractWordMeaning(rawVerbs);
-        String preparedNouns = extractWordMeaning(rawNouns);
-        String preparedAdj = extractWordMeaning(rawAdj);
+        String preparedVerbs = extractWordMeaning(rawVerbs, 'v');
+        String preparedNouns = extractWordMeaning(rawNouns, 'n');
+        String preparedAdj = extractWordMeaning(rawAdj, 'a');
         String preparedAllWords = preparedVerbs + preparedNouns + preparedAdj;
 
 
@@ -38,16 +35,16 @@ public class ExtractWordMeanings {
         write(preparedNouns, Paths.get(OUTPUT_PATH + "preparedNouns.txt"));
         write(preparedAdj, Paths.get(OUTPUT_PATH + "preparedAdj.txt"));
 
-        write(preparedAllWords, Paths.get(OUTPUT_PATH + "preparedAllWords.txt"));
+        write(preparedAllWords, Paths.get(OUTPUT_PATH + "preparedMeanings.txt"));
     }
 
-    private static String extractWordMeaning(List<String> rawVerbs) {
+    private static String extractWordMeaning(List<String> rawContent, char partOfSpeech) {
         StringBuilder sb = new StringBuilder();
         String delim = ";";
         String delimEndOfLine = delim + "\n";
         String listDelim = ",";
 
-        for (String line : rawVerbs) {
+        for (String line : rawContent) {
 
             String word = extractWord(line);
             String definition = extractDefinition(line);
@@ -57,6 +54,7 @@ public class ExtractWordMeanings {
             // only keep the words with all data present
             if (!definition.isEmpty() && !synonyms.isEmpty() && !examples.isEmpty()) {
                 sb.append(word).append(delim)
+                        .append(partOfSpeech).append(delim)
                         .append(definition).append(delim)
                         .append(join(listDelim, synonyms)).append(delim)
                         .append(join(listDelim, examples)).append(delimEndOfLine);
