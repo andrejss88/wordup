@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.stream.Stream;
 
+import static com.wordup.utils.Constants.*;
 import static com.wordup.utils.FileUtils.convertFileToStringList;
 import static com.wordup.utils.FileUtils.write;
 import static com.wordup.utils.WordUtils.*;
@@ -12,13 +13,11 @@ import static java.util.stream.Collectors.toList;
 
 public class PrepareWordList {
 
-    private static final String PATH = "data-prep/src/main/resources/";
     private static final String META_PATH = PATH + "meta/";
-    private static final String OUTPUT_PATH = PATH + "output/";
 
     public static void main(String[] args) {
 
-        List<String> rawContent = convertFileToStringList(PATH + "input/input_word_list.txt");
+        List<String> rawContent = convertFileToStringList(INPUT_PATH + "input_word_list.txt");
         List<String> sanitized = sanitize(rawContent);
 
         List<String> conjunctions = convertFileToStringList(META_PATH + "conjunctions.txt");

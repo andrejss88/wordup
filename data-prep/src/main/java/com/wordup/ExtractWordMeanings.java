@@ -1,13 +1,14 @@
 package com.wordup;
 
-import com.wordup.utils.FileUtils;
-
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.regex.MatchResult;
 import java.util.regex.Pattern;
 
+import static com.wordup.utils.Constants.INPUT_PATH;
+import static com.wordup.utils.Constants.PATH;
 import static com.wordup.utils.FileUtils.convertFileToStringList;
+import static com.wordup.utils.FileUtils.write;
 import static java.lang.String.join;
 import static java.util.Arrays.asList;
 import static java.util.Arrays.copyOfRange;
@@ -15,7 +16,7 @@ import static java.util.stream.Collectors.toList;
 
 public class ExtractWordMeanings {
 
-    private static final String PATH = "data-prep/src/main/resources/";
+
     private static final String OUTPUT_PATH = PATH + "output/";
 
     private static final String TEXT_IN_QUOTES_REGEX = "([\"'])(?:(?=(\\\\?))\\2.)*?\\1";
@@ -23,13 +24,30 @@ public class ExtractWordMeanings {
 
     public static void main(String[] args) {
 
-        List<String> rawContent = convertFileToStringList(PATH + "input/input_definitions_verbs.txt");
+        List<String> rawVerbs = convertFileToStringList(INPUT_PATH + "input_definitions_verbs.txt");
+        List<String> rawNouns = convertFileToStringList(INPUT_PATH + "input_definitions_nouns.txt");
+        List<String> rawAdj = convertFileToStringList(INPUT_PATH + "input_definitions_adj.txt");
+
+        String preparedVerbs = extractWordMeaning(rawVerbs);
+        String preparedNouns = extractWordMeaning(rawNouns);
+        String preparedAdj = extractWordMeaning(rawAdj);
+        String preparedAllWords = preparedVerbs + preparedNouns + preparedAdj;
+
+
+        write(preparedVerbs, Paths.get(OUTPUT_PATH + "preparedVerbs.txt"));
+        write(preparedNouns, Paths.get(OUTPUT_PATH + "preparedNouns.txt"));
+        write(preparedAdj, Paths.get(OUTPUT_PATH + "preparedAdj.txt"));
+
+        write(preparedAllWords, Paths.get(OUTPUT_PATH + "preparedAllWords.txt"));
+    }
+
+    private static String extractWordMeaning(List<String> rawVerbs) {
         StringBuilder sb = new StringBuilder();
         String delim = ";";
         String delimEndOfLine = delim + "\n";
         String listDelim = ",";
 
-        for (String line : rawContent) {
+        for (String line : rawVerbs) {
 
             String word = extractWord(line);
             String definition = extractDefinition(line);
@@ -45,8 +63,7 @@ public class ExtractWordMeanings {
             }
 
         }
-
-        FileUtils.write(sb.toString(), Paths.get(OUTPUT_PATH + "preparedDict.txt"));
+        return sb.toString();
     }
 
     /**
@@ -55,8 +72,12 @@ public class ExtractWordMeanings {
      * @param line: 02738211 43 v 02 shine 0 beam 3 | emit light; be bright, as of the sun or a light; "The sun shone bright that day";
      * @return substring the 5th space-divided element
      */
-    private static String extractWord(String line) {
-        return line.split("\\s")[4];
+    public static String extractWord(String line) {
+        String word = line.split("\\s")[4];
+        if (word.contains("-") || word.contains("_")) {
+            word = word.replaceAll("_", " ");
+        }
+        return word;
     }
 
     /**
@@ -67,7 +88,7 @@ public class ExtractWordMeanings {
      * 2) If it's N < 2 - this means no synonyms, so we skip
      * 3) Otherwise get N-1 elements starting from the first synonym (5th element) that we use as the base word
      */
-    private static List<String> extractSynonyms(String line) {
+    public static List<String> extractSynonyms(String line) {
         String[] splitLine = line.split("\\s");
         String synonymNum = splitLine[3];
         int synonyms;

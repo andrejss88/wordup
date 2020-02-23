@@ -9,7 +9,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class DataPrepTest {
 
-
     @Test
     public void testRemoveNounPlurals() {
         List<String> listWithDups = List.of("friend", "friends", "dog", "dogs", "serious", "has");
